@@ -1,0 +1,5 @@
+data/*
+.idea
+*.log
+.ipynb_checkpoints
+data_spacy_entity_linker
