@@ -11,7 +11,7 @@ conn = None
 entity_cache = {}
 chain_cache = {}
 
-DB_DEFAULT_PATH = os.path.abspath('../data_spacy_entity_linker/wikidb_filtered.db')
+DB_DEFAULT_PATH = os.path.abspath(__file__ + '/../../data_spacy_entity_linker/wikidb_filtered.db')
 
 wikidata_instance = None
 
@@ -93,11 +93,11 @@ class WikidataQueryController:
 
         if res and len(res):
             if res[0] == None:
-                self._append_chain_elements("name", item_id, 'no label')
+                self._add_to_cache("name", item_id, 'no label')
             else:
-                self._append_chain_elements("name", item_id, res[0])
+                self._add_to_cache("name", item_id, res[0])
         else:
-            self._append_chain_elements("name", item_id, '<none>')
+            self._add_to_cache("name", item_id, '<none>')
 
         return self._get_cached_value("name", item_id)
 

@@ -35,22 +35,89 @@ nlp.add_pipe(entityLinker, last=True, name="entityLinker")
 
 doc = nlp("I watched the Pirates of the Carribean last silvester")
 
-
 #returns all entities in the whole document
 all_linked_entities=doc._.linkedEntities
 #iterates over sentences and prints linked entities
 for sent in doc.sents:
     sent._.linkedEntities.pretty_print()
+    
+#OUTPUT:
+#https://www.wikidata.org/wiki/Q194318         194318     Pirates of the Caribbean        Series of fantasy adventure films                                                                   
+    #https://www.wikidata.org/wiki/Q12525597   12525597   Silvester                       the day celebrated on 31 December (Roman Catholic Church) or 2 January (Eastern Orthodox Churches)                
 
-'''
-https://www.wikidata.org/wiki/Q194318     194318     Pirates of the Caribbean        Series of fantasy adventure films                                                                   
-https://www.wikidata.org/wiki/Q12525597   12525597   Silvester                       the day celebrated on 31 December (Roman Catholic Church) or 2 January (Eastern Orthodox Churches)  
-
-'''
 ```
 
+### EntityCollection
+contains an array of entity elements. It can be accessed like an array but also implements the following 
+helper functions:
+- <code>pretty_print()</code> prints out information about all contained entities
+- <code>print_super_classes()</code> groups and prints all entites by their super class
+
+```python
+doc = nlp("Elon Musk was born in South Africa. Bill Gates and Steve Jobs come from the United States")
+doc._.linkedEntities.print_super_entities()
+#OUTPUT:
+#human (3) : Elon Musk,Bill Gates,Steve Jobs
+#country (2) : South Africa,United States of America
+#sovereign state (2) : South Africa,United States of America
+#federal state (1) : United States of America
+#constitutional republic (1) : United States of America
+#democratic republic (1) : United States of America
+```
+### EntityElement
+each linked Entity is an object of type <code>EntityElement</code>. Each entity contains the methods
+
+- <code>get_description()</code> returns description from Wikidata
+- <code>get_id()</code> returns Wikidata ID
+- <code>get_label()</code> returns Wikidata label
+- <code>get_span()</code> returns the span from the spacy document that contains the linked entity
+- <code>get_url()</code> returns the url to the corresponding Wikidata item
+- <code>pretty_print()</code> prints out information about the entity element
+- <code>get_sub_entities(limit=10)</code> returns EntityCollection of all entities that derive from the current entityElement (e.g. fruit -> apple, banana, etc.)
+- <code>get_super_entities(limit=10)</code> returns EntityCollection of all entities that the current entityElement derives from (e.g. New England Patriots -> Football Team))
+
 ## Example
-In the following example we will use SpacyEntityLinker to extract all 
+In the following example we will use SpacyEntityLinker to find find the mentioned Football Team in our text
+and explore other football teams of the same type
+
+```python
+
+doc = nlp("I follow the New England Patriots")
+
+patriots_entity=doc._.linkedEntities[0]
+patriots_entity.pretty_print()
+#OUTPUT:
+#https://www.wikidata.org/wiki/Q193390
+#193390     
+#New England Patriots            
+#National Football League franchise in Foxborough, Massachusetts                    
+
+football_team_entity=patriots_entity.get_super_entities()[0]
+football_team_entity.pretty_print()
+#OUTPUT:
+#https://www.wikidata.org/wiki/Q17156793   
+#17156793   
+#American football team          
+#organization, in which a group of players are organized to compete as a team in American football   
+
+
+for child in football_team_entity.get_sub_entities(limit=32):
+  print(child)
+  #OUTPUT:
+  #New Orleans Saints
+  #New York Giants
+  #Pittsburgh Steelers
+  #New England Patriots
+  #Indianapolis Colts
+  #Miami Seahawks
+  #Dallas Cowboys
+  #Chicago Bears
+  #Washington Redskins
+  #Green Bay Packers
+  #...
+```
+
+</pre>
 
 
 ### Entity Linking Policy

@@ -27,7 +27,7 @@ class EntityCollection:
 
         return categories
 
-    def print_categories(self, max_depth=1, limit=10):
+    def print_super_entities(self, max_depth=1, limit=10):
         wikidataInstance = get_wikidata_instance()
 
         all_categories = []
@@ -49,7 +49,7 @@ class EntityCollection:
         for entity in self.entities:
             entity.pretty_print()
 
-    def grouped_by_category(self, max_depth=1):
+    def grouped_by_super_entities(self, max_depth=1):
         counter = Counter()
         counter.update(self.get_categories(max_depth))
 
@@ -57,9 +57,3 @@ class EntityCollection:
 
     def get_distinct_categories(self, max_depth=1):
         return list(set(self.get_categories(max_depth)))
-
-    def most_frequent_categories(self):
-        pass
-
-    def get_most_significant_categories(self, priors):
-        pass

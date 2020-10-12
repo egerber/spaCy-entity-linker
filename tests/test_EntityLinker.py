@@ -14,10 +14,11 @@ class TestEntityLinker(unittest.TestCase):
 
         self.nlp.add_pipe(entityLinker, last=True, name="entityLinker")
 
-        doc = self.nlp("I watched the Pirates of the Caribbean last silvester. Then I saw a snake. It was great.")
+        doc = self.nlp(
+            "Elon Musk was born in South Africa. Bill Gates and Steve Jobs come from in the United States")
 
         doc._.linkedEntities.pretty_print()
-
+        doc._.linkedEntities.print_super_entities()
         for sent in doc.sents:
             sent._.linkedEntities.pretty_print()
 

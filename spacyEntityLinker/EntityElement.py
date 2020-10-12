@@ -1,4 +1,5 @@
 from spacyEntityLinker.DatabaseConnection import get_wikidata_instance
+from spacyEntityLinker.EntityCollection import EntityCollection
 
 
 class EntityElement:
@@ -61,11 +62,13 @@ class EntityElement:
     def get_categories(self, max_depth=10):
         return self.wikidata_instance.get_categories(self.identifier, max_depth=max_depth)
 
-    def get_children(self, limit=10):
-        return [EntityElement(row, None) for row in self.wikidata_instance.get_children(self.get_id(), limit)]
+    def get_sub_entities(self, limit=10):
+        return EntityCollection(
+            [EntityElement(row, None) for row in self.wikidata_instance.get_children(self.get_id(), limit)])
 
-    def get_parents(self, limit=10):
-        return [EntityElement(row, None) for row in self.wikidata_instance.get_parents(self.get_id(), limit)]
+    def get_super_entities(self, limit=10):
+        return EntityCollection(
+            [EntityElement(row, None) for row in self.wikidata_instance.get_parents(self.get_id(), limit)])
 
     def get_subclass_hierarchy(self):
         chain = self.wikidata_instance.get_chain(self.identifier, max_depth=5, property=279)
@@ -122,3 +125,6 @@ class EntityElement:
             return label
         else:
             return ""
+
+    def __eq__(self, other):
+        return isinstance(other, EntityElement) and other.get_id() == self.get_id()
