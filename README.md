@@ -117,9 +117,6 @@ for child in football_team_entity.get_sub_entities(limit=32):
   #...
 ```
 
-</pre>
-
-
 ### Entity Linking Policy
 Currently the only method for choosing an entity given different possible matches (e.g. Paris - city vs Paris - firstname) is max-prior. This method achieves around 70% accuracy on predicting
 the correct entities behind link descriptions on wikipedia.
@@ -138,7 +135,7 @@ To install the package run: <code>pip install spacy-entity-linker</code>
 
 Afterwards, the knowledge base (Wikidata) must be downloaded. This can be done by calling 
 
-<code>python -m spacyEntityLinker download_knowledge_base</code>
+<code>python -m spacyEntityLinker "download_knowledge_base"</code>
 
 This will download and extract a ~500mb file that contains a preprocessed version of Wikidata
 
