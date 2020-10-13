@@ -8,15 +8,15 @@ The Entity Linking System operates by matching potential candidates from each se
 from Wikidata. The package allows to easily find the category behind each entity (e.g. "banana" is type "food" OR "Microsoft" is type "company"). It can 
 is therefore useful for information extraction tasks and labeling tasks.
 
-The package was written before a working Linked Entity Solution existed inside spaCy. In comparison to spaCy's linked entity system, it has the following examples
-- no extensive training required (string-matching is done on a database)
+The package was written before a working Linked Entity Solution existed inside spaCy. In comparison to spaCy's linked entity system, it has the following advantages:
+- no extensive training required (entity-matching via database)
 - knowledge base can be dynamically updated without retraining
 - entity categories can be easily resolved
 - grouping entities by category
 
 It also comes along with a number of disadvantages:
 - it is slower than the spaCy implementation due to the use of a database for finding entities
-- no context sensitivity due to the implementation of the "max-prior method" for entitiy disambiguation
+- no context sensitivity due to the implementation of the "max-prior method" for entitiy disambiguation (an improved method for this is in progress)
 
 
 ## Use
