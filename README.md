@@ -22,7 +22,7 @@ It also comes along with a number of disadvantages:
 ## Use
 ```python
 import spacy
-from SpacyEntityLinker import EntityLinker
+from spacyEntityLinker import EntityLinker
 
 #Initialize Entity Linker
 entityLinker = EntityLinker()
