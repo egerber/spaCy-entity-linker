@@ -1,5 +1,5 @@
-from spacyEntityLinker.DatabaseConnection import get_wikidata_instance
-from spacyEntityLinker.EntityCollection import EntityCollection
+from .DatabaseConnection import get_wikidata_instance
+from .EntityCollection import EntityCollection
 
 
 class EntityElement:

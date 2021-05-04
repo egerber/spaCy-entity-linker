@@ -1,6 +1,6 @@
 import unittest
 import spacy
-from spacyEntityLinker.EntityLinker import EntityLinker
+from spacy_entity_linker.EntityLinker import EntityLinker
 
 
 class TestEntityLinker(unittest.TestCase):
@@ -10,9 +10,8 @@ class TestEntityLinker(unittest.TestCase):
         self.nlp = spacy.load('en_core_web_sm')
 
     def test_initialization(self):
-        entityLinker = EntityLinker()
 
-        self.nlp.add_pipe(entityLinker, last=True, name="entityLinker")
+        self.nlp.add_pipe("entityLinker", last=True)
 
         doc = self.nlp(
             "Elon Musk was born in South Africa. Bill Gates and Steve Jobs come from in the United States")

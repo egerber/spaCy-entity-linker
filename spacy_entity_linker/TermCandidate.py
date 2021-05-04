@@ -1,6 +1,6 @@
-from spacyEntityLinker.EntityCandidates import EntityCandidates
-from spacyEntityLinker.EntityElement import EntityElement
-from spacyEntityLinker.DatabaseConnection import get_wikidata_instance
+from .EntityCandidates import EntityCandidates
+from .EntityElement import EntityElement
+from .DatabaseConnection import get_wikidata_instance
 
 
 class TermCandidate:

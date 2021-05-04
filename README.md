@@ -22,16 +22,12 @@ It also comes along with a number of disadvantages:
 ## Use
 ```python
 import spacy
-from spacyEntityLinker import EntityLinker
-
-#Initialize Entity Linker
-entityLinker = EntityLinker()
 
 #initialize language model
 nlp = spacy.load("en_core_web_sm")
 
-#add pipeline
-nlp.add_pipe(entityLinker, last=True, name="entityLinker")
+#add pipeline (declared through entry_points in setup.py)
+nlp.add_pipe("entityLinker", last=True)
 
 doc = nlp("I watched the Pirates of the Carribean last silvester")
 
@@ -135,7 +131,7 @@ To install the package run: <code>pip install spacy-entity-linker</code>
 
 Afterwards, the knowledge base (Wikidata) must be downloaded. This can be done by calling 
 
-<code>python -m spacyEntityLinker "download_knowledge_base"</code>
+<code>python -m spacy_entity_linker "download_knowledge_base"</code>
 
 This will download and extract a ~500mb file that contains a preprocessed version of Wikidata
 

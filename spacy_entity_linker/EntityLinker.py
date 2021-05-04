@@ -1,12 +1,14 @@
-from spacyEntityLinker.EntityClassifier import EntityClassifier
-from spacyEntityLinker.EntityCollection import EntityCollection
-from spacyEntityLinker.TermCandidateExtractor import TermCandidateExtractor
 from spacy.tokens import Doc, Span
+from spacy.language import Language
 
+from .EntityClassifier import EntityClassifier
+from .EntityCollection import EntityCollection
+from .TermCandidateExtractor import TermCandidateExtractor
 
+@Language.factory('entityLinker')
 class EntityLinker:
 
-    def __init__(self):
+    def __init__(self, nlp, name):
         Doc.set_extension("linkedEntities", default=EntityCollection(), force=True)
         Span.set_extension("linkedEntities", default=None, force=True)
 
