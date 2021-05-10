@@ -1,4 +1,4 @@
-from spacyEntityLinker.TermCandidate import TermCandidate
+from .TermCandidate import TermCandidate
 
 
 class TermCandidateExtractor:

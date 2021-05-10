@@ -1,5 +1,5 @@
 from collections import Counter, defaultdict
-from spacyEntityLinker.DatabaseConnection import get_wikidata_instance
+from .DatabaseConnection import get_wikidata_instance
 
 
 class EntityCollection:

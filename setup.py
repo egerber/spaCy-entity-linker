@@ -5,7 +5,6 @@
 
 # This file is part of fuzzywuzzy.
 
-from spacyEntityLinker import __version__
 import os
 
 try:
@@ -23,26 +22,31 @@ with open("README.md", "r") as fh:
 
 setup(
     name='spacy-entity-linker',
-    version=__version__,
+    version='1.0.0',
     author='Emanuel Gerber',
     author_email='emanuel.j.gerber@gmail.com',
-    packages=['spacyEntityLinker'],
+    packages=['spacy_entity_linker'],
     url='https://github.com/egerber/spacy-entity-linker',
     license="MIT",
     classifiers=["Environment :: Console",
                  "Intended Audience :: Developers",
                  "Intended Audience :: Science/Research",
                  "License :: OSI Approved :: MIT License",
-                 "Operating System :: POSIX :: Linux",
                  "Programming Language :: Cython",
                  "Programming Language :: Python",
-                 "Programming Language :: Python :: 2",
-                 "Programming Language :: Python :: 2.7",
-                 "Programming Language :: Python :: 3",
-                 "Programming Language :: Python :: 3.4"
+                 "Programming Language :: Python :: 3.6"
+                 "Programming Language :: Python :: 3.7"
+                 "Programming Language :: Python :: 3.8"
                  ],
     description='Linked Entity Pipeline for spaCy',
     long_description=long_description,
     long_description_content_type="text/markdown",
     zip_safe=True,
+    install_requires=[
+        'spacy>=3.0.0',
+        'numpy>=1.0.0'
+    ],
+    entry_points={
+        'spacy_factories': 'entityLinker = spacy_entity_linker.EntityLinker:EntityLinker'
+    }
 )

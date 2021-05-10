@@ -1,6 +1,6 @@
 import unittest
 import spacy
-import spacyEntityLinker.TermCandidateExtractor
+import spacy_entity_linker.TermCandidateExtractor
 
 
 class TestCandidateExtractor(unittest.TestCase):
