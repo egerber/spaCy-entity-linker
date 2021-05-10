@@ -160,6 +160,26 @@ It was cleaned and post-procesed, including filtering out entities of "overrepre
   * etc.
   
 The purpose behind the knowledge base cleaning was to reduce the knowledge base size, while keeping the most useful entities for general purpose applications.
+
+Currently, the only way to change the knowledge base is a bit hacky and requires to replace or modify the underlying sqlite database. You will find it under <code>site_packages/data_spacy_entity_linker/wikidb_filtered.db</code> folder. The database contains 3 tables:
+* <b>aliases</b>
+  * en_alias (english alias)
+  * en_alias_lowercase (english alias lowercased)
+* <b>joined</b>
+  * en_label (label of the wikidata item)
+  * views (number of views of the corresponding wikipedia page (in a given period of time))
+  * inlinks (number of inlinks to the corresponding wikipedia page)
+  * item_id (wikidata id)
+  * description (description of the wikidata item)
+* <b>statements</b>
+  * source_item_id (references item_id)
+  * target_item_id (references item_id)
+  * edge_property_id
+      * 279=subclass of (https://www.wikidata.org/wiki/Property:P279)
+      * 31=instance of (https://www.wikidata.org/wiki/Property:P31)
+      * 361=part of (https://www.wikidata.org/wiki/Property:P361)
+
+
 ## Versions:
 
 - <code>spacy_entity_linker>=0.0</code> (requires <code>spacy>=2.2,<3.0</code>)
