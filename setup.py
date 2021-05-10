@@ -22,7 +22,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='spacy-entity-linker',
-    version='0.0.6',
+    version='1.0.0',
     author='Emanuel Gerber',
     author_email='emanuel.j.gerber@gmail.com',
     packages=['spacy_entity_linker'],
@@ -32,13 +32,11 @@ setup(
                  "Intended Audience :: Developers",
                  "Intended Audience :: Science/Research",
                  "License :: OSI Approved :: MIT License",
-                 "Operating System :: POSIX :: Linux",
                  "Programming Language :: Cython",
                  "Programming Language :: Python",
-                 "Programming Language :: Python :: 2",
-                 "Programming Language :: Python :: 2.7",
-                 "Programming Language :: Python :: 3",
-                 "Programming Language :: Python :: 3.4"
+                 "Programming Language :: Python :: 3.6"
+                 "Programming Language :: Python :: 3.7"
+                 "Programming Language :: Python :: 3.8"
                  ],
     description='Linked Entity Pipeline for spaCy',
     long_description=long_description,
