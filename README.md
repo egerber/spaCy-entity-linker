@@ -159,7 +159,7 @@ It was cleaned and post-procesed, including filtering out entities of "overrepre
   
 The purpose behind the knowledge base cleaning was to reduce the knowledge base size, while keeping the most useful entities for general purpose applications.
 
-Currently, the only way to change the knowledge base is a bit hacky and requires to replace or modify the underlying sqlite database. You will find it under <code>site_packages/data_spacy_entity_linker/wikidb_filtered.db</code> folder. The database contains 3 tables:
+Currently, the only way to change the knowledge base is a bit hacky and requires to replace or modify the underlying sqlite database. You will find it under <code>site_packages/data_spacy_entity_linker/wikidb_filtered.db</code>. The database contains 3 tables:
 * <b>aliases</b>
   * en_alias (english alias)
   * en_alias_lowercase (english alias lowercased)
