@@ -1,6 +1,8 @@
 from collections import Counter, defaultdict
 from .DatabaseConnection import get_wikidata_instance
 
+MAX_ITEMS_PREVIEW=20
+
 
 class EntityCollection:
 
@@ -44,6 +46,17 @@ class EntityCollection:
         for category, frequency in counter.most_common(limit):
             print("{} ({}) : {}".format(wikidataInstance.get_entity_name(category), frequency,
                                         ','.join([str(e) for e in category_to_entites[category]])))
+
+    def __repr__(self) -> str:
+        preview_str="<EntityCollection ({} entities):".format(len(self))
+        for index,entity_element in enumerate(self):
+            if index>MAX_ITEMS_PREVIEW:
+                preview_str+="\n...{} more".format(len(self)-MAX_ITEMS_PREVIEW)
+                break
+            preview_str+="\n-{}".format(entity_element.get_preview_string())
+        
+        preview_str+=">"
+        return preview_str
 
     def pretty_print(self):
         for entity in self.entities:

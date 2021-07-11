@@ -20,6 +20,7 @@ class EntityElement:
         if len(row) > 5 and row[5]:
             self.original_alias = row[5]
 
+        self.url="https://www.wikidata.org/wiki/Q{}".format(self.get_id())
         self.span = span
 
         self.chain = None
@@ -101,11 +102,16 @@ class EntityElement:
         }
 
     def pretty_print(self):
-        print(
-            "https://www.wikidata.org/wiki/Q{0:<10} {1:<10} {2:<30}  {3:<100}".format(self.get_id(),
-                                                                                      self.get_id(),
-                                                                                      self.get_label(),
-                                                                                      self.get_description()[:100]))
+        print(self.__repr__())
+    
+    def get_url(self):
+        return self.url
+
+    def __repr__(self):
+        return "<EntityElement: {}>".format(self.get_preview_string())
+
+    def get_preview_string(self):
+        return "{0:<10} {1:<25} {2:<50}".format(self.get_url(),self.get_label(),self.get_description()[:100])
 
     def pretty_string(self, description=False):
         if description:

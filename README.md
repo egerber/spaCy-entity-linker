@@ -42,8 +42,8 @@ for sent in doc.sents:
     sent._.linkedEntities.pretty_print()
 
 # OUTPUT:
-# https://www.wikidata.org/wiki/Q194318     194318     Pirates of the Caribbean        Series of fantasy adventure films                                                                   
-# https://www.wikidata.org/wiki/Q12525597   12525597   Silvester                       the day celebrated on 31 December (Roman Catholic Church) or 2 January (Eastern Orthodox Churches)  
+# https://www.wikidata.org/wiki/Q194318     Pirates of the Caribbean        Series of fantasy adventure films                                                                   
+# https://www.wikidata.org/wiki/Q12525597   Silvester                       the day celebrated on 31 December (Roman Catholic Church) or 2 January (Eastern Orthodox Churches)  
 
 ```
 
@@ -94,16 +94,14 @@ doc = nlp("I follow the New England Patriots")
 patriots_entity = doc._.linkedEntities[0]
 patriots_entity.pretty_print()
 # OUTPUT:
-# https://www.wikidata.org/wiki/Q193390
-# 193390     
+# https://www.wikidata.org/wiki/Q193390     
 # New England Patriots            
 # National Football League franchise in Foxborough, Massachusetts                    
 
 football_team_entity = patriots_entity.get_super_entities()[0]
 football_team_entity.pretty_print()
 # OUTPUT:
-# https://www.wikidata.org/wiki/Q17156793   
-# 17156793   
+# https://www.wikidata.org/wiki/Q17156793 
 # American football team          
 # organization, in which a group of players are organized to compete as a team in American football   
 

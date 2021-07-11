@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# Copyright (c) 2014 SeatGeek
-
-# This file is part of fuzzywuzzy.
 
 import os
 
@@ -22,7 +19,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='spacy-entity-linker',
-    version='1.0.0',
+    version='1.0.1',
     author='Emanuel Gerber',
     author_email='emanuel.j.gerber@gmail.com',
     packages=['spacy_entity_linker'],
