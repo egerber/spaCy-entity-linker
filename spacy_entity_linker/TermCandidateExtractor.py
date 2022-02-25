@@ -11,7 +11,10 @@ class TermCandidateExtractor:
                 yield candidate
 
     def _get_candidates_in_sent(self, sent, doc):
-        root = list(filter(lambda token: token.dep_ == "ROOT", sent))[0]
+        roots = list(filter(lambda token: token.dep_ == "ROOT", sent))
+        if len(roots) < 1:
+            return []
+        root = roots[0]
 
         excluded_children = []
         candidates = []
