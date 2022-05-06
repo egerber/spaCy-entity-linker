@@ -49,7 +49,7 @@ class WikidataQueryController:
             self.cache[cache_type][key] = value
 
     def init_database_connection(self, path=DB_DEFAULT_PATH):
-        self.conn = sqlite3.connect(path)
+        self.conn = sqlite3.connect(path, check_same_thread=False)
 
     def clear_cache(self):
         self.cache["entity"].clear()
