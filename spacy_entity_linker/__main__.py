@@ -12,7 +12,7 @@ if __name__ == "__main__":
     command = sys.argv.pop(1)
 
     if command == "download_knowledge_base":
-        FILE_URL = "https://wikidatafiles.nyc3.digitaloceanspaces.com/Hosting/Hosting/SpacyEntityLinker/datafiles.tar.gz"
+        FILE_URL = "https://huggingface.co/MartinoMensio/spaCy-entity-linker/resolve/main/knowledge_base.tar.gz"
 
         OUTPUT_TAR_FILE = os.path.abspath(
             os.path.dirname(__file__)) + '/../data_spacy_entity_linker/wikidb_filtered.tar.gz'
