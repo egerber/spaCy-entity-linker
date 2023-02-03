@@ -30,12 +30,13 @@ To install the package, run:
 pip install spacy-entity-linker
 ```
 
-Afterwards, the knowledge base (Wikidata) must be downloaded. This can be done by calling
+Afterwards, the knowledge base (Wikidata) must be downloaded. This can be either be done by manually calling
 
 ```bash
 python -m spacy_entity_linker "download_knowledge_base"
 ```
 
+or when you first access the entity linker through spacy.
 This will download and extract a ~1.3GB file that contains a preprocessed version of Wikidata.
 
 ## Use

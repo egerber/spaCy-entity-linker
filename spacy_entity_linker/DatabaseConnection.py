@@ -1,6 +1,8 @@
 import sqlite3
 import os
 
+from .__main__ import download_knowledge_base
+
 MAX_DEPTH_CHAIN = 10
 P_INSTANCE_OF = 31
 P_SUBCLASS = 279
@@ -11,7 +13,7 @@ conn = None
 entity_cache = {}
 chain_cache = {}
 
-DB_DEFAULT_PATH = os.path.abspath(__file__ + '/../../data_spacy_entity_linker/wikidb_filtered.db')
+DB_DEFAULT_PATH = os.path.abspath(os.path.join(__file__, "../../data_spacy_entity_linker/wikidb_filtered.db"))
 
 wikidata_instance = None
 
@@ -49,7 +51,13 @@ class WikidataQueryController:
             self.cache[cache_type][key] = value
 
     def init_database_connection(self, path=DB_DEFAULT_PATH):
-        self.conn = sqlite3.connect(path)
+        try:
+            self.conn = sqlite3.connect(path)
+        except sqlite3.OperationalError:
+            # Automatically download the knowledge base if it isn't already
+            download_knowledge_base()
+            # ... and retry the connection after completion
+            self.conn = sqlite3.connect(path)
 
     def clear_cache(self):
         self.cache["entity"].clear()
@@ -61,9 +69,9 @@ class WikidataQueryController:
         if self._is_cached("entity", alias):
             return self._get_cached_value("entity", alias).copy()
 
-        query_alias = """SELECT j.item_id,j.en_label, j.en_description,j.views,j.inlinks,a.en_alias from aliases as a
-            LEFT JOIN joined as j ON a.item_id = j.item_id
-            WHERE a.en_alias_lowercase = ? and j.item_id NOT NULL"""
+        query_alias = """SELECT j.item_id,j.en_label, j.en_description,j.views,j.inlinks,a.en_alias 
+            FROM aliases as a LEFT JOIN joined as j ON a.item_id = j.item_id
+            WHERE a.en_alias_lowercase = ? AND j.item_id NOT NULL"""
 
         c.execute(query_alias, [alias.lower()])
         fetched_rows = c.fetchall()
@@ -92,7 +100,7 @@ class WikidataQueryController:
         res = c.fetchone()
 
         if res and len(res):
-            if res[0] == None:
+            if res[0] is None:
                 self._add_to_cache("name", item_id, 'no label')
             else:
                 self._add_to_cache("name", item_id, res[0])
@@ -148,10 +156,14 @@ class WikidataQueryController:
         self._append_chain_elements(self, item_id, 0, chain, edges)
         return edges
 
-    def _append_chain_elements(self, item_id, level=0, chain=[], edges=[], max_depth=10, property=P_INSTANCE_OF):
-        properties = property
-        if type(property) != list:
-            properties = [property]
+    def _append_chain_elements(self, item_id, level=0, chain=None, edges=None, max_depth=10, prop=P_INSTANCE_OF):
+        if chain is None:
+            chain = []
+        if edges is None:
+            edges = []
+        properties = prop
+        if type(prop) != list:
+            properties = [prop]
 
         if self._is_cached("chain", (item_id, max_depth)):
             chain += self._get_cached_value("chain", (item_id, max_depth)).copy()
@@ -176,9 +188,12 @@ class WikidataQueryController:
             if not (target_item[0] in chain_ids):
                 chain += [(target_item[0], level + 1)]
                 edges.append((item_id, target_item[0], target_item[1]))
-                self._append_chain_elements(target_item[0], level=level + 1, chain=chain, edges=edges,
+                self._append_chain_elements(target_item[0],
+                                            level=level + 1,
+                                            chain=chain,
+                                            edges=edges,
                                             max_depth=max_depth,
-                                            property=property)
+                                            prop=prop)
 
         self._add_to_cache("chain", (item_id, max_depth), chain)
 
