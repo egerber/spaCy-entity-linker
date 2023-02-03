@@ -19,7 +19,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='spacy-entity-linker',
-    version='1.0.2',
+    version='1.0.3',
     author='Emanuel Gerber',
     author_email='emanuel.j.gerber@gmail.com',
     packages=['spacy_entity_linker'],
