@@ -51,13 +51,11 @@ class WikidataQueryController:
             self.cache[cache_type][key] = value
 
     def init_database_connection(self, path=DB_DEFAULT_PATH):
-        try:
-            self.conn = sqlite3.connect(path)
-        except sqlite3.OperationalError:
+        # check if the database exists
+        if not os.path.exists(DB_DEFAULT_PATH):
             # Automatically download the knowledge base if it isn't already
             download_knowledge_base()
-            # ... and retry the connection after completion
-            self.conn = sqlite3.connect(path)
+        self.conn = sqlite3.connect(path)
 
     def clear_cache(self):
         self.cache["entity"].clear()
