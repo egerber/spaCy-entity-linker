@@ -23,7 +23,7 @@ def download_knowledge_base(
     OUTPUT_DB_PATH = os.path.abspath(os.path.dirname(__file__)) + '/../data_spacy_entity_linker'
     if not os.path.exists(OUTPUT_DB_PATH):
         os.makedirs(OUTPUT_DB_PATH)
-    with DownloadProgressBar(unit='B', unit_scale=True, miniters=1) as dpb:
+    with DownloadProgressBar(unit='B', unit_scale=True, miniters=1, desc='Downloading knowledge base') as dpb:
         urllib.request.urlretrieve(file_url, filename=OUTPUT_TAR_FILE, reporthook=dpb.update_to)
 
     tar = tarfile.open(OUTPUT_TAR_FILE)
