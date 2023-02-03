@@ -22,6 +22,22 @@ It also comes along with a number of disadvantages:
 - no context sensitivity due to the implementation of the "max-prior method" for entitiy disambiguation (an improved
   method for this is in progress)
 
+
+## Installation
+
+To install the package, run:
+```bash
+pip install spacy-entity-linker
+```
+
+Afterwards, the knowledge base (Wikidata) must be downloaded. This can be done by calling
+
+```bash
+python -m spacy_entity_linker "download_knowledge_base"
+```
+
+This will download and extract a ~1.3GB file that contains a preprocessed version of Wikidata.
+
 ## Use
 
 ```python
@@ -137,16 +153,6 @@ The Entity Linker at the current state is still experimental and should not be u
 The current implementation supports only Sqlite. This is advantageous for development because it does not requirement
 any special setup and configuration. However, for more performance critical usecases, a different database with
 in-memory access (e.g. Redis) should be used. This may be implemented in the future.
-
-## Installation
-
-To install the package run: <code>pip install spacy-entity-linker</code>
-
-Afterwards, the knowledge base (Wikidata) must be downloaded. This can be done by calling
-
-<code>python -m spacy_entity_linker "download_knowledge_base"</code>
-
-This will download and extract a ~500mb file that contains a preprocessed version of Wikidata
 
 ## Data
 the knowledge base was derived from this dataset: https://www.kaggle.com/kenshoresearch/kensho-derived-wikimedia-data
