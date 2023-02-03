@@ -39,7 +39,8 @@ setup(
     zip_safe=True,
     install_requires=[
         'spacy>=3.0.0',
-        'numpy>=1.0.0'
+        'numpy>=1.0.0',
+        'tqdm'
     ],
     entry_points={
         'spacy_factories': 'entityLinker = spacy_entity_linker.EntityLinker:EntityLinker'
