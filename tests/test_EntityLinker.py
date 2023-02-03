@@ -24,10 +24,15 @@ class TestEntityLinker(unittest.TestCase):
         self.nlp.remove_pipe("entityLinker")
 
     def test_empty_root(self):
+        # test empty lists of roots (#9)
         self.nlp.add_pipe("entityLinker", last=True)
 
         doc = self.nlp(
             'I was right."\n\n     "To that extent."\n\n     "But that was all."\n\n     "No, no, m')
+        for sent in doc.sents:
+            sent._.linkedEntities.pretty_print()
+        # empty document
+        doc = self.nlp('\n\n')
         for sent in doc.sents:
             sent._.linkedEntities.pretty_print()
 
