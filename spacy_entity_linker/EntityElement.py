@@ -49,9 +49,9 @@ class EntityElement:
     def get_prior(self):
         return self.prior
 
-    def get_chain(self):
+    def get_chain(self, max_depth=10):
         if self.chain is None:
-            self.chain = self.wikidata_instance.get_chain(self.identifier, max_depth=10, property=31)
+            self.chain = self.wikidata_instance.get_chain(self.identifier, max_depth=max_depth, property=31)
         return self.chain
 
     def is_category(self):
