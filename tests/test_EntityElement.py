@@ -1,6 +1,5 @@
 import unittest
 import spacy
-from spacy_entity_linker.EntityLinker import EntityLinker
 
 
 class TestEntityElement(unittest.TestCase):
