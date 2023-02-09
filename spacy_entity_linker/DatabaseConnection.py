@@ -55,7 +55,7 @@ class WikidataQueryController:
         if not os.path.exists(DB_DEFAULT_PATH):
             # Automatically download the knowledge base if it isn't already
             download_knowledge_base()
-        self.conn = sqlite3.connect(path)
+        self.conn = sqlite3.connect(path, check_same_thread=False)
 
     def clear_cache(self):
         self.cache["entity"].clear()
