@@ -42,7 +42,7 @@ This will download and extract a ~1.3GB file that contains a preprocessed versio
 ## Use
 
 ```python
-import spacy  # version 3.0.6'
+import spacy  # version 3.5
 
 # initialize language model
 nlp = spacy.load("en_core_web_md")
@@ -62,6 +62,10 @@ for sent in doc.sents:
 # https://www.wikidata.org/wiki/Q194318     Pirates of the Caribbean        Series of fantasy adventure films                                                                   
 # https://www.wikidata.org/wiki/Q12525597   Silvester                       the day celebrated on 31 December (Roman Catholic Church) or 2 January (Eastern Orthodox Churches)  
 
+# entities are also directly accessible through spans
+doc[3:7]._.linkedEntities.pretty_print()
+# OUTPUT:
+# https://www.wikidata.org/wiki/Q194318     Pirates of the Caribbean        Series of fantasy adventure films
 ```
 
 ### EntityCollection
