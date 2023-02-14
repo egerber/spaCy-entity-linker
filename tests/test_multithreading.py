@@ -3,10 +3,10 @@ import spacy
 from multiprocessing.pool import ThreadPool
 
 
-class TestEntityElement(unittest.TestCase):
+class TestMultiThreading(unittest.TestCase):
 
     def __init__(self, arg, *args, **kwargs):
-        super(TestEntityElement, self).__init__(arg, *args, **kwargs)
+        super(TestMultiThreading, self).__init__(arg, *args, **kwargs)
         self.nlp = spacy.load('en_core_web_sm')
 
     def test_is_multithread_safe(self):
