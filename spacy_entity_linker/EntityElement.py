@@ -1,3 +1,5 @@
+import srsly
+
 from .DatabaseConnection import get_wikidata_instance
 from .EntityCollection import EntityCollection
 
@@ -8,6 +10,8 @@ class EntityElement:
         self.prior = 0
         self.original_alias = None
         self.in_degree = None
+        self.label = None
+        self.description = None
 
         if len(row) > 1:
             self.label = row[1]
@@ -134,3 +138,31 @@ class EntityElement:
 
     def __eq__(self, other):
         return isinstance(other, EntityElement) and other.get_id() == self.get_id()
+
+
+@srsly.msgpack_encoders("EntityElement")
+def serialize_obj(obj, chain=None):
+    if isinstance(obj, EntityElement):
+        result = {
+            "identifier": obj.identifier,
+            "label": obj.label,
+            "description": obj.description,
+            "prior": obj.prior,
+            "in_degree": obj.in_degree,
+            "original_alias": obj.original_alias,
+        }
+        # TODO: understand how to serialize span
+        return result
+    # otherwise return the original object so another serializer can handle it
+    return obj if chain is None else chain(obj)
+
+
+@srsly.msgpack_decoders("EntityElement")
+def deserialize_obj(obj, chain=None):
+    if "identifier" in obj:
+        row = [obj['identifier'], obj['label'], obj['description'], obj['prior'], obj['in_degree'], obj['original_alias']]
+        # TODO: understand how to deserialize span
+        span = None
+        return EntityElement(row, span)
+    # otherwise return the original object so another serializer can handle it
+    return obj if chain is None else chain(obj)

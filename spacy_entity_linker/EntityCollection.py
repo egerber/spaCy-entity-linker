@@ -1,4 +1,6 @@
+import srsly
 from collections import Counter, defaultdict
+
 from .DatabaseConnection import get_wikidata_instance
 
 MAX_ITEMS_PREVIEW=20
@@ -70,3 +72,21 @@ class EntityCollection:
 
     def get_distinct_categories(self, max_depth=1):
         return list(set(self.get_categories(max_depth)))
+
+
+@srsly.msgpack_encoders("EntityCollection")
+def serialize_obj(obj, chain=None):
+    if isinstance(obj, EntityCollection):
+        return {
+            "entities": obj.entities,
+        }
+    # otherwise return the original object so another serializer can handle it
+    return obj if chain is None else chain(obj)
+
+
+@srsly.msgpack_decoders("EntityCollection")
+def deserialize_obj(obj, chain=None):
+    if "entities" in obj:
+        return EntityCollection(entities=obj["entities"])
+    # otherwise return the original object so another serializer can handle it
+    return obj if chain is None else chain(obj)
