@@ -25,7 +25,7 @@ class SpanInfo:
         return self.end - self.start
     
     def __eq__(self, __o: object) -> bool:
-        if isinstance(__o, SpanInfo):
+        if isinstance(__o, SpanInfo) or isinstance(__o, spacy.tokens.Span):
             return self.start == __o.start and self.end == __o.end and self.text == __o.text
         return False
     
