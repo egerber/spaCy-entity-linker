@@ -95,13 +95,41 @@ each linked Entity is an object of type <code>EntityElement</code>. Each entity 
 - <code>get_description()</code> returns description from Wikidata
 - <code>get_id()</code> returns Wikidata ID
 - <code>get_label()</code> returns Wikidata label
-- <code>get_span(doc)</code> returns the span from the spacy document that contains the linked entity. You need to provide the current `doc` as argument, in order to receive an actual `spacy.tokens.Span` object, otherwise you will receive a SpanInfo emulating the behaviour of a Span
+- <code>get_span(doc)</code> returns the span from the spacy document that contains the linked entity. You need to provide the current `doc` as argument, in order to receive an actual `spacy.tokens.Span` object, otherwise you will receive a `SpanInfo` emulating the behaviour of a Span
 - <code>get_url()</code> returns the url to the corresponding Wikidata item
 - <code>pretty_print()</code> prints out information about the entity element
 - <code>get_sub_entities(limit=10)</code> returns EntityCollection of all entities that derive from the current
   entityElement (e.g. fruit -> apple, banana, etc.)
 - <code>get_super_entities(limit=10)</code> returns EntityCollection of all entities that the current entityElement
   derives from (e.g. New England Patriots -> Football Team))
+
+
+Usage of the `get_span` method with `SpanInfo`:
+
+```python
+import spacy
+nlp = spacy.load('en_core_web_md')
+nlp.add_pipe("entityLinker", last=True)
+text = 'Apple is competing with Microsoft.'
+doc = nlp(text)
+sents = list(doc.sents)
+ent = doc._.linkedEntities[0]
+
+# using the SpanInfo class
+span = ent.get_span()
+print(span.start, span.end, span.text) # behaves like a Span
+
+# check equivalence
+print(span == doc[0:1]) # True
+print(doc[0:1] == span) # TypeError: Argument 'other' has incorrect type (expected spacy.tokens.span.Span, got SpanInfo)
+
+# now get the real span
+span = ent.get_span(doc) # passing the doc instance here
+print(span.start, span.end, span.text)
+
+print(span == doc[0:1]) # True
+print(doc[0:1] == span) # True
+```
 
 ## Example
 
