@@ -95,7 +95,7 @@ each linked Entity is an object of type <code>EntityElement</code>. Each entity 
 - <code>get_description()</code> returns description from Wikidata
 - <code>get_id()</code> returns Wikidata ID
 - <code>get_label()</code> returns Wikidata label
-- <code>get_span()</code> returns the span from the spacy document that contains the linked entity
+- <code>get_span(doc)</code> returns the span from the spacy document that contains the linked entity. You need to provide the current `doc` as argument, in order to receive an actual `spacy.tokens.Span` object
 - <code>get_url()</code> returns the url to the corresponding Wikidata item
 - <code>pretty_print()</code> prints out information about the entity element
 - <code>get_sub_entities(limit=10)</code> returns EntityCollection of all entities that derive from the current
