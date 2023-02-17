@@ -26,7 +26,11 @@ class EntityElement:
             self.original_alias = row[5]
 
         self.url="https://www.wikidata.org/wiki/Q{}".format(self.get_id())
-        self.span_info = SpanInfo.from_span(span)
+        if span:
+            self.span_info = SpanInfo.from_span(span)
+        else:
+            # sometimes the constructor is called with None as second parameter (e.g. in get_sub_entities/get_super_entities)
+            self.span_info = None
 
         self.chain = None
         self.chain_ids = None
