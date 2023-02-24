@@ -20,6 +20,9 @@ jobs:
         cache: 'pip' # caching pip dependencies
     - name: Install Python dependencies
       uses: py-actions/py-dependency-install@v4
-    - name: Run pytest
+    - name: Install additional for testing
+      run: ./.github/scripts/tests-setup.sh
+      shell: bash
+    - name: Run the tests
       run: ./.github/scripts/run-tests.sh
       shell: bash
