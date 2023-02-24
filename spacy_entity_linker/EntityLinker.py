@@ -24,10 +24,11 @@ class EntityLinker:
             entityCandidates = termCandidates.get_entity_candidates()
             if len(entityCandidates) > 0:
                 entity = classifier(entityCandidates)
+                span = doc[entity.span_info.start:entity.span_info.end]
                 # Add the entity to the sentence-level EntityCollection
-                entity.span.sent._.linkedEntities.append(entity)
+                span.sent._.linkedEntities.append(entity)
                 # Also associate the token span with the entity
-                entity.span._.linkedEntities = entity
+                span._.linkedEntities = entity
                 # And finally append to the document-level collection
                 entities.append(entity)
 

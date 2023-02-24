@@ -1,6 +1,9 @@
+import spacy
+import srsly
+
 from .DatabaseConnection import get_wikidata_instance
 from .EntityCollection import EntityCollection
-
+from .SpanInfo import SpanInfo
 
 class EntityElement:
     def __init__(self, row, span):
@@ -8,6 +11,8 @@ class EntityElement:
         self.prior = 0
         self.original_alias = None
         self.in_degree = None
+        self.label = None
+        self.description = None
 
         if len(row) > 1:
             self.label = row[1]
@@ -21,7 +26,11 @@ class EntityElement:
             self.original_alias = row[5]
 
         self.url="https://www.wikidata.org/wiki/Q{}".format(self.get_id())
-        self.span = span
+        if span:
+            self.span_info = SpanInfo.from_span(span)
+        else:
+            # sometimes the constructor is called with None as second parameter (e.g. in get_sub_entities/get_super_entities)
+            self.span_info = None
 
         self.chain = None
         self.chain_ids = None
@@ -37,8 +46,20 @@ class EntityElement:
     def is_singleton(self):
         return len(self.get_chain()) == 0
 
-    def get_span(self):
-        return self.span
+    def get_span(self, doc: spacy.tokens.Doc=None):
+        """
+        Returns the span of the entity in the document.
+        :param doc: the document in which the entity is contained
+        :return: the span of the entity in the document
+
+        If the doc is not None, it returns a real spacy.tokens.Span.
+        Otherwise it returns the instance of SpanInfo that emulates the behaviour of a spacy.tokens.Span
+        """
+        if doc is not None:
+            # return a real spacy.tokens.Span
+            return self.span_info.get_span(doc)
+        # otherwise return the instance of SpanInfo that emulates the behaviour of a spacy.tokens.Span
+        return self.span_info
 
     def get_label(self):
         return self.label
@@ -115,15 +136,15 @@ class EntityElement:
 
     def pretty_string(self, description=False):
         if description:
-            return ','.join([span.text for span in self.span]) + "  => {} <{}>".format(self.get_label(),
-                                                                                       self.get_description())
+            return "{}  => {} <{}>".format(self.span_info, self.get_label(), self.get_description())
         else:
-            return ','.join([span.text for span in self.span]) + "  => {}".format(self.get_label())
+            return "{}  => {}".format(self.span_info, self.get_label())
 
-    def save(self, category):
-        for span in self.span:
-            span.sent._.linked_entities.append(
-                {"id": self.identifier, "range": [span.start, span.end + 1], "category": category})
+    # TODO: this method has never worked because the custom attribute is not registered properly
+    # def save(self, category):
+    #     for span in self.span:
+    #         span.sent._.linked_entities.append(
+    #             {"id": self.identifier, "range": [span.start, span.end + 1], "category": category})
 
     def __str__(self):
         label = self.get_label()
@@ -134,3 +155,30 @@ class EntityElement:
 
     def __eq__(self, other):
         return isinstance(other, EntityElement) and other.get_id() == self.get_id()
+
+
+@srsly.msgpack_encoders("EntityElement")
+def serialize_obj(obj, chain=None):
+    if isinstance(obj, EntityElement):
+        result = {
+            "identifier": obj.identifier,
+            "label": obj.label,
+            "description": obj.description,
+            "prior": obj.prior,
+            "in_degree": obj.in_degree,
+            "original_alias": obj.original_alias,
+            "span_info": obj.span_info,
+        }
+        return result
+    # otherwise return the original object so another serializer can handle it
+    return obj if chain is None else chain(obj)
+
+
+@srsly.msgpack_decoders("EntityElement")
+def deserialize_obj(obj, chain=None):
+    if "identifier" in obj:
+        row = [obj['identifier'], obj['label'], obj['description'], obj['prior'], obj['in_degree'], obj['original_alias']]
+        span_info = obj['span_info']
+        return EntityElement(row, span_info)
+    # otherwise return the original object so another serializer can handle it
+    return obj if chain is None else chain(obj)

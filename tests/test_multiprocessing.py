@@ -3,13 +3,13 @@ import spacy
 from multiprocessing.pool import ThreadPool
 
 
-class TestMultiThreading(unittest.TestCase):
+class TestMultiprocessing(unittest.TestCase):
 
     def __init__(self, arg, *args, **kwargs):
-        super(TestMultiThreading, self).__init__(arg, *args, **kwargs)
+        super(TestMultiprocessing, self).__init__(arg, *args, **kwargs)
         self.nlp = spacy.load('en_core_web_sm')
 
-    def test_is_multithread_safe(self):
+    def test_is_pipe_multiprocessing_safe(self):
         self.nlp.add_pipe("entityLinker", last=True)
 
         ents = [
@@ -26,16 +26,11 @@ class TestMultiThreading(unittest.TestCase):
         ]
         text = "{} is looking at buying U.K. startup for $1 billion"
 
-        def thread_func(i):
-            doc = self.nlp(text.format(ents[i]))
+        texts = [text.format(ent) for ent in ents]
+        docs = self.nlp.pipe(texts, n_process=2)
+        for doc in docs:
             print(doc)
-
             for ent in doc.ents:
                 print(ent.text, ent.label_, ent._.linkedEntities)
-            return i
-
-        with ThreadPool(10) as pool:
-            for res in pool.imap_unordered(thread_func, range(10)):
-                pass
 
         self.nlp.remove_pipe("entityLinker")
