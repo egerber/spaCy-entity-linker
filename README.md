@@ -1,3 +1,7 @@
+[![Tests](https://github.com/egerber/spaCy-entity-linker/actions/workflows/tests.yml/badge.svg)](https://github.com/egerber/spaCy-entity-linker/actions/workflows/tests.yml)
+[![Downloads](https://static.pepy.tech/badge/spacy-entity-linker)](https://pepy.tech/project/spacy-entity-linker)
+[![Current Release Version](https://img.shields.io/github/release/egerber/spaCy-entity-linker.svg?style=flat-square&logo=github)](https://github.com/egerber/spaCy-entity-linker/releases)
+[![pypi Version](https://img.shields.io/pypi/v/spacy-entity-linker.svg?style=flat-square&logo=pypi&logoColor=white)](https://pypi.org/project/spacy-entity-linker/)
 # Spacy Entity Linker
 
 ## Introduction
